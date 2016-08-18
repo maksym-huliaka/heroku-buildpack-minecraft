@@ -14,12 +14,6 @@ echo "Starting ngrok..."
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
 
-# Do an inline sync first, then start the background job
-echo "Starting sync..."
-bin/sync
-eval "while true; do sleep ${AWS_SYNC_INTERVAL:-60}; bin/sync; done &"
-sync_pid=$!
-
 # create server config
 echo "server-port=${mc_port}" >> /app/server.properties
 touch whitelist.json
@@ -44,7 +38,7 @@ echo "Starting: minecraft ${mc_port}"
 eval "java -Xmx${heap} -Xms${heap} -jar minecraft.jar nogui &"
 main_pid=$!
 
-trap "kill $ngrok_pid $main_pid $sync_pid" SIGTERM
-trap "kill -9 $ngrok_pid $main_pid $sync_pid; exit" SIGKILL
+trap "kill $ngrok_pid $main_pid" SIGTERM
+trap "kill -9 $ngrok_pid $main_pid; exit" SIGKILL
 
 eval "ruby -rwebrick -e'WEBrick::HTTPServer.new(:BindAddress => \"0.0.0.0\", :Port => ${port}, :MimeTypes => {\"rhtml\" => \"text/html\"}, :DocumentRoot => Dir.pwd).start'"
