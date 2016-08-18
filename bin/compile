@@ -19,17 +19,9 @@ mkdir -p "$APT_CACHE_DIR/archives/partial"
 mkdir -p "$APT_STATE_DIR/lists/partial"
 
 echo -n "-----> Installing ngrok... "
-curl --silent -o ngrok.zip -L "https://dl.ngrok.com/ngrok_2.0.17_linux_amd64.zip" | indent
+curl --silent -o ngrok.zip -L "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip" | indent
 unzip ngrok.zip -d $BUILD_DIR/bin > /dev/null 2>&1
 echo "done"
-
-# mincraft_version=${MINECRAFT_VERSION:-"1.8.3"}
-# minecraft_url="https://s3.amazonaws.com/Minecraft.Download/versions/${mincraft_version}/minecraft_server.${mincraft_version}.jar"
-
-# echo -n "-----> Installing Minecraft ${mincraft_version}... "
-# curl -o minecraft.jar -s -L $minecraft_url
-# mv minecraft.jar $BUILD_DIR/minecraft.jar
-# echo "done"
 
 mkdir -p $BUILD_DIR/bin
 [ ! -f $BUILD_DIR/minecraft ]   && cp $OPT_DIR/minecraft $BUILD_DIR/bin
