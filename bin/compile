@@ -1,6 +1,6 @@
 #!/bin/sh
-
 set -eu
+set -o pipefail
 
 indent() {
   sed -u 's/^/       /'
@@ -9,22 +9,8 @@ indent() {
 BP_DIR="$(cd "$(dirname "$0")" && pwd)"
 BUILD_DIR=$1
 CACHE_DIR=$2
-OPT_DIR=$BP_DIR/../opt/
-
-APT_CACHE_DIR="$CACHE_DIR/apt/cache"
-APT_STATE_DIR="$CACHE_DIR/apt/state"
-APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR"
-
-mkdir -p "$APT_CACHE_DIR/archives/partial"
-mkdir -p "$APT_STATE_DIR/lists/partial"
 
 echo -n "-----> Installing ngrok... "
 curl --silent -o ngrok.zip -L "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip" | indent
 unzip ngrok.zip -d $BUILD_DIR/bin > /dev/null 2>&1
 echo "done"
-
-mkdir -p $BUILD_DIR/bin
-[ ! -f $BUILD_DIR/minecraft ]   && cp $OPT_DIR/minecraft $BUILD_DIR/bin
-[ ! -f $BUILD_DIR/index.rhtml ] && cp $OPT_DIR/index.rhtml $BUILD_DIR
-
-chmod +x $BUILD_DIR/bin/minecraft
