@@ -3,7 +3,7 @@
 This is a [Heroku Buildpack](https://devcenter.heroku.com/articles/buildpacks)
 for running a Minecraft server in a [dyno](https://devcenter.heroku.com/articles/dynos).
 
-For an actual deployment example, please look into [my deployment repository](https://github.com/Chengsong/heroku-buildpack-minecraft).
+For an actual deployment example, please look into [my deployment repository](https://github.com/Chengsong/heroku-mc-deploy).
 
 ## Env Variables
 
